@@ -1,8 +1,9 @@
 require('dotenv').config()
-
 const Discord = require('discord.js')
 const UsuariosManegment = require('./models/user.js')
-const colors = require('colors');
+const colors = require('colors')
+
+const keepAlive = require('./server')
 
 const client = new Discord.Client()
 const controladorUsuario = new UsuariosManegment()
@@ -170,4 +171,5 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
     console.log('newMember: \n'.yellow, newMember)
 })
 
+keepAlive()
 client.login( process.env.TOKEN )
