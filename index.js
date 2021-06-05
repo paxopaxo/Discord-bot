@@ -9,10 +9,10 @@ const controladorUsuario = new UsuariosManegment()
 
 const canalesContadores = new Map( [['Sala de clases', '709959913656418305'], [ 'Sala de clases 2', '846631170975989760' ] ] )
 
-setInterval( () => {
-    console.log('this.inicio:   ', controladorUsuario.inicio)
-    console.log('this.final:    ', controladorUsuario.final, '\n')
-}, 2000)
+//setInterval( () => {
+//    console.log('this.inicio:   ', controladorUsuario.inicio)
+//    console.log('this.final:    ', controladorUsuario.final, '\n')
+//}, 2000)
 
 client.on('ready', () => {
     console.log(`El bot está listo como ${ client.user.tag }`)
