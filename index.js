@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const Discord = require('discord.js')
 const UsuariosManegment = require('./models/user.js')
 const colors = require('colors');
@@ -166,4 +168,4 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
     console.log('newMember: \n'.yellow, newMember)
 })
 
-client.login('ODQ4ODM4MDQ3ODUyMDAzMzY4.YLScCQ.3SZnImGzgZMx0Dd3_xXRfrXwMYo')
+client.login( process.env.TOKEN )
