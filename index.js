@@ -106,8 +106,10 @@ client.on('voiceStateUpdate', async(oldState, newState) => {
             console.log(`El usuario ${newState.member.user.tag} se ha ${'CONECTADO'.green} al canal ${'SALA DE CLASES 2'.blue} y el contador ha empezado a correr`)
         }
     }
-    
-    const tiempo = controladorUsuario.getRegistroPorTagNUM(newState.member.user.tag)?.tiempoTranscurrido
+    let tiempo;
+    if ( controladorUsuario.getRegistroPorTagNUM(newState.member.user.tag) ) {
+        tiempo = controladorUsuario.getRegistroPorTagNUM(newState.member.user.tag).tiempoTranscurrido
+    }
 
     console.log('TIEMPO: \n '.green, tiempo)
     if(Boolean(tiempo) || tiempo === 0 ) {
