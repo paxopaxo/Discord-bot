@@ -80,7 +80,6 @@ client.on('message', message => {
             // console.log(controladorUsusario.diasHorasMinutos)
             break
         case '.a':
-            
             break
         default:
             break;
@@ -127,35 +126,23 @@ client.on('voiceStateUpdate', async(oldState, newState) => {
         if ( tiempo < 18 ) {
             await newState.member.roles.add( roles[0] )
         } else if( tiempo < 300) {
-            if (newState.member._roles.includes(roles[0]) ) {
-                await newState.member.roles.remove( roles[0] )
-                await newState.member.roles.add( roles[1] )
-            }
+            await newState.member.roles.remove( roles[0] )
+            await newState.member.roles.add( roles[1] )
         } else if( tiempo < 600 ) {
-            if (newState.member._roles.includes(roles[1]) ) {
-                await newState.member.roles.remove( roles[1] )
-                await newState.member.roles.add( roles[2] )
-            }
+            await newState.member.roles.remove( roles[1] )
+            await newState.member.roles.add( roles[2] )
         } else if( tiempo < 1380 ) {
-            if (newState.member._roles.includes(roles[2]) ) {
-                await newState.member.roles.remove( roles[2] )
-                await newState.member.roles.add( roles[3] )
-            }
+            await newState.member.roles.remove( roles[2] )
+            await newState.member.roles.add( roles[3] )
         } else if( tiempo < 3900 ) {
-            if (newState.member._roles.includes(roles[3]) ) {
-                await newState.member.roles.remove( roles[3] )
-                await newState.member.roles.add( roles[4] )
-            }
+            await newState.member.roles.remove( roles[3] )
+            await newState.member.roles.add( roles[4] )
         } else if( tiempo < 5640 ) {
-            if (newState.member._roles.includes(roles[4]) ) {
-                await newState.member.roles.remove( roles[4] )
-                await newState.member.roles.add( roles[5] )
-            }        
+            await newState.member.roles.remove( roles[4] )
+            await newState.member.roles.add( roles[5] )
         } else if( tiempo > 5640 ) {
-            if (newState.member._roles.includes(roles[5]) ) {
-                await newState.member.roles.remove( roles[5] )
-                await newState.member.roles.add( roles[6] )
-            }
+            await newState.member.roles.remove( roles[5] )
+            await newState.member.roles.add( roles[6] )
         } else {
             console.log('rer'.bgCyan)
         }
