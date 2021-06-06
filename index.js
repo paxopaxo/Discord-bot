@@ -54,12 +54,15 @@ client.on('message', message => {
             break
         case '.toptiempo':
             // Este try catch actualiza los usuarios si fuera necesario
-            try {
-                controladorUsuario.finalizar(message.author.tag)
-                controladorUsuario.iniciar(message.author.tag)
-            } catch (error) {
-                console.log('Mandaste a finalizar y no ha comenzado a contar el tiempo'.red)
-            }
+            const usersArr = controladorUsuario.minutos.map( obj => obj.usuario )
+            usersArr.forEach( (tagUser) => {
+                try {
+                    controladorUsuario.finalizar(tagUser)
+                    controladorUsuario.iniciar(tagUser)
+                } catch (error) {
+                    console.log(tagUser, 'Mandaste a finalizar y no ha comenzado a contar el tiempo'.red)
+                }
+            })
             const top = controladorUsuario.diasHorasMinutos
             const topTiempo = [ ...top.map( ( { usuario, tiempoTranscurrido } ) => tiempoTranscurrido ) ]
             const topUsuarios = [ ...top.map( ({usuario, tiempoTranscurrido}) => usuario ) ].map(( user, i ) => `${i+1}.- `+ user )
