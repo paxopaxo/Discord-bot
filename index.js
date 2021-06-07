@@ -77,10 +77,9 @@ client.on('message', message => {
                     { name: 'Tiempo en el servidor: ', value: topTiempo, inline: true }
                 )
                 .setTimestamp()
-                .setFooter(`Solicitado por ${message.member.user.tag}`, message.author.avatarURL() );
-                    
+                .setFooter(`Solicitado por ${message.member.user.tag}`, message.author.avatarURL() )
+                
             message.channel.send(exampleEmbed)
-            // console.log(controladorUsusario.diasHorasMinutos)
             break
         case '.a':
             break

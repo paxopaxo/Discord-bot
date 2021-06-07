@@ -1,12 +1,11 @@
 const fs = require('fs')
 const path = require('path')
+const { connectDB, queryDB, insertNewDB, updateDB } = require('../data/database')
 
 class UsuariosManegment {
     constructor() {
         this.inicio = [] // [{ usuario, countInit } ...]
         this.final = [] // [ { usuario, tiempoTranscurrido }, ... ]
-        this.dbPath = path.join( __dirname, '../data/data.json' )
-        this.readDB()
     }
 
     get diasHorasMinutos() {
@@ -18,17 +17,8 @@ class UsuariosManegment {
         })
         const arrFinal = arr.map( obj => {
             const tiempoEnMinutos = obj.tiempoTranscurrido
-            const usuario = obj.usuario 
-            
-            if ( tiempoEnMinutos < 60) {
-                return { usuario, tiempoTranscurrido: `0d 0h ${tiempoEnMinutos}min` }
-            } else if (60 <= tiempoEnMinutos && tiempoEnMinutos < 1440) {
-                return { usuario, tiempoTranscurrido: `0d ${Math.trunc( tiempoEnMinutos / 60 )}h ${ tiempoEnMinutos % 60 }min` }
-            } else if ( tiempoEnMinutos >= 1440) {
-                return {usuario , tiempoTranscurrido: `${Math.trunc( tiempoEnMinutos / 1440 )}d ${Math.trunc( (tiempoEnMinutos % 1440) / 60 )}h ${(tiempoEnMinutos % 1440) % 60}min`}
-            } else {
-                return { usuario, tiempoTranscurrido: 'rer' }
-            }
+            const usuario = obj.usuario
+            return {usuario , tiempoTranscurrido: `${Math.trunc( tiempoEnMinutos / 1440 )}d ${Math.trunc( (tiempoEnMinutos % 1440) / 60 )}h ${(tiempoEnMinutos % 1440) % 60}min`}
         })
         return arrFinal
     }
@@ -51,9 +41,10 @@ class UsuariosManegment {
     }
     
     
-    readDB() {
-        const final = JSON.parse( fs.readFileSync( this.dbPath ) )
-        this.final = final
+    async readDB() {
+        await connectDB()
+        const users = await queryDB('SELECT * FROM usuarios ORDER BY tiempoTranscurrido DESC')
+        this.final = users
     }
 
     iniciar(id) {
@@ -62,7 +53,7 @@ class UsuariosManegment {
         this.inicio.push( { usuario: id, countInit } )
     }
 
-    finalizar(id) {
+    async finalizar(id) {
         const date = new Date()
         const countEnd = date.getTime()
 
@@ -78,22 +69,20 @@ class UsuariosManegment {
 
         console.log('Tiempo transcurrido en min:\n', tiempoMin )
 
-        const indiceFinal = this.final.findIndex(obj => obj.usuario == id)
+        const indiceFinal = this.final.findIndex(obj => obj.usuario === id)
         if ( indiceFinal === -1 ) {
             this.final.push( { usuario: id, tiempoTranscurrido: tiempoMin})
+            // Saving on database
+            await insertNewDB(id, tiempoMin )
+
         } else {
             this.final[indiceFinal].tiempoTranscurrido += tiempoMin
+            // Saving on database
+            await updateDB(id, this.final[indiceFinal].tiempoTranscurrido )
         }
 
-        this.saveDB()
         this.inicio.splice(indiceInicio, 1)
     }
-
-    saveDB() {
-        fs.writeFileSync(this.dbPath, JSON.stringify(this.final))
-    }
-
-
 }
 
 module.exports = UsuariosManegment
