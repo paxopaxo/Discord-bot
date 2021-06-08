@@ -100,6 +100,9 @@ client.on('voiceStateUpdate', async(oldState, newState) => {
         if( oldState.channelID === canalesContadores.get('Sala de clases 2') || oldState.channelID === canalesContadores.get('Sala de clases')) {
             try {
                 controladorUsuario.finalizar(newState.member.user.tag)
+                  .catch( (err) => {
+                    throw new Error(err)
+                  })
                 console.log(`El usuario ${newState.member.user.tag} se ha ${'DESCONECTADO'.red} de el canal y el contador se ha detenido`)
             } catch (error) {
                 console.log(`${error.message}`.red)
