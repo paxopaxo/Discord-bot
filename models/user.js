@@ -6,7 +6,7 @@ class UsuariosManegment {
     constructor() {
         this.inicio = [] // [{ usuario, countInit } ...]
         this.final = [] // [ { usuario, tiempoTranscurrido }, ... ]
-        
+
         this.readDB()
     }
 
@@ -75,12 +75,14 @@ class UsuariosManegment {
         if ( indiceFinal === -1 ) {
             this.final.push( { usuario: id, tiempoTranscurrido: tiempoMin})
             // Saving on database
-            await insertNewDB(id, tiempoMin )
+            await insertNewDB({ usuario: id, tiempoTranscurrido: tiempoMin} )
+              .catch( err => console.log(err))
 
         } else {
             this.final[indiceFinal].tiempoTranscurrido += tiempoMin
             // Saving on database
             await updateDB(id, this.final[indiceFinal].tiempoTranscurrido )
+              .catch(err => console.log(err))
         }
 
         this.inicio.splice(indiceInicio, 1)
