@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 
-const con = mysql.createConnection({
+const pool = mysql.createPool({
+  connectionLimit: 5,
   host: "b6nwka7ebz6awckhrnug-mysql.services.clever-cloud.com",
   user: process.env.USER,
   password: process.env.PASSWORD,
@@ -9,37 +10,52 @@ const con = mysql.createConnection({
 
 const connectDB = () => {
     return new Promise( (resolve, reject) => {
-        con.connect( (err) => {
+        con.getConnection( (err) => {
             if (err) throw reject(err);
             else resolve()
         })
     })
 }
+
 const queryDB = (query) => {
     return new Promise( (resolve, reject) => {
-        con.query(query, (err, result) => {
-            if (err) reject(err);
-            else {
-                const resultArray = Object.values(JSON.parse(JSON.stringify(result)))
-                resolve(resultArray)
-            }
-          })
+        pool.getConnection( (err, con) => {
+            if (err) reject(err)
+            con.query(query, (err, result) => {
+                con.release()
+
+                if (err) reject(err)
+                else {
+                    const resultArray = Object.values(JSON.parse(JSON.stringify(result)))
+                    resolve(resultArray)
+                }
+            })
+        })
     })
 }
 const insertNewDB = (obj) => {
     return new Promise( (resolve, reject) => {
-        // const obj = { usuario: 'pixulitax#3182', tiempoTranscurrido: 90 }
-        const query = con.query('INSERT INTO usuarios SET ?', obj, (error, results, fields) => {
-            if (error) reject(error)
-            else resolve(results)
+        pool.getConnection( (err, con) => {
+            if(err) reject(err)
+            // const obj = { usuario: 'pixulitax#3182', tiempoTranscurrido: 90 }
+            con.query('INSERT INTO usuarios SET ?', obj, (error, results, fields) => {
+                con.release()
+                if (error) reject(error)
+                else resolve(results)
+            })
         })
     })
 }
 const updateDB = (usuario, tiempoTranscurrido ) => {
     return new Promise( (resolve, reject) => {
-        const query = con.query('UPDATE usuarios SET tiempoTranscurrido = ? WHERE usuario = ?', [tiempoTranscurrido, usuario], (error, result, fields) => {
-            if (error) reject(error)
-            else resolve(result)
+        pool.getConnection( (err, con) => {
+            if(err) reject(err)
+
+            con.query('UPDATE usuarios SET tiempoTranscurrido = ? WHERE usuario = ?', [tiempoTranscurrido, usuario], (error, result, fields) => {
+                con.release()
+                if (error) reject(error)
+                else resolve(result)
+            })
         })
     })
 }

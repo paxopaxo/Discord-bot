@@ -44,7 +44,6 @@ class UsuariosManegment {
     
     
     async readDB() {
-        // await connectDB()
         const users = await queryDB('SELECT * FROM usuarios ORDER BY tiempoTranscurrido DESC')
         this.final = users
     }
@@ -76,13 +75,13 @@ class UsuariosManegment {
             this.final.push( { usuario: id, tiempoTranscurrido: tiempoMin})
             // Saving on database
             await insertNewDB({ usuario: id, tiempoTranscurrido: tiempoMin} )
-              .catch( err => console.log(err))
+              .catch( err => console.log('INSERT NEW DB CATCH', err ))
 
         } else {
             this.final[indiceFinal].tiempoTranscurrido += tiempoMin
             // Saving on database
             await updateDB(id, this.final[indiceFinal].tiempoTranscurrido )
-              .catch(err => console.log(err))
+              .catch(err => console.log('UPDATE DB CATCH', err))
         }
 
         this.inicio.splice(indiceInicio, 1)
