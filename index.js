@@ -61,7 +61,7 @@ client.on('message', async(message) => {
             usersArr.forEach( async(tagUser) => {
                 try {
                     await controladorUsuario.finalizar(tagUser)
-                        .catch( (err) => {
+                        .catch( async(err) => {
                             throw new Error(err)
                         })
                     controladorUsuario.iniciar(tagUser)
