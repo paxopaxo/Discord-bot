@@ -32,7 +32,7 @@ client.on('message', async(message) => {
             // Este try catch actualiza los usuarios si fuera necesario
             try {
                 await controladorUsuario.finalizar(message.author.tag)
-                    .catch( (err) => {
+                    .catch( async(err) => {
                         throw new Error(err)
                     })
                 controladorUsuario.iniciar(message.author.tag)
