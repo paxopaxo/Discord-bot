@@ -96,7 +96,7 @@ client.on('message', async(message) => {
 
 client.on('voiceStateUpdate', async(oldState, newState) => {    
 
-    if(newState.channelID !== oldState.channelID) {
+    if(newState.channelID !== oldState.channelID) { // O inicia o finaliza, no hay mas opciones!
         if( oldState.channelID === canalesContadores.get('Sala de clases 2') || oldState.channelID === canalesContadores.get('Sala de clases')) {
             try {
                 controladorUsuario.finalizar(newState.member.user.tag)
@@ -107,14 +107,15 @@ client.on('voiceStateUpdate', async(oldState, newState) => {
             } catch (error) {
                 console.log(`${error.message}`.red)
             }
-        }
-        if (  newState.channelID === canalesContadores.get('Sala de clases') ) { 
-            controladorUsuario.iniciar(newState.member.user.tag)
-            console.log(`El usuario ${newState.member.user.tag} se ha ${'CONECTADO'.green} al canal ${'SALA DE CLASES'.blue} y el contador ha empezado a correr`)
-        }
-        if ( newState.channelID === canalesContadores.get('Sala de clases 2') ) {
-            controladorUsuario.iniciar(newState.member.user.tag)
-            console.log(`El usuario ${newState.member.user.tag} se ha ${'CONECTADO'.green} al canal ${'SALA DE CLASES 2'.blue} y el contador ha empezado a correr`)
+        } else {
+            if (  newState.channelID === canalesContadores.get('Sala de clases') ) { 
+                controladorUsuario.iniciar(newState.member.user.tag)
+                console.log(`El usuario ${newState.member.user.tag} se ha ${'CONECTADO'.green} al canal ${'SALA DE CLASES'.blue} y el contador ha empezado a correr`)
+            }
+            if ( newState.channelID === canalesContadores.get('Sala de clases 2') ) {
+                controladorUsuario.iniciar(newState.member.user.tag)
+                console.log(`El usuario ${newState.member.user.tag} se ha ${'CONECTADO'.green} al canal ${'SALA DE CLASES 2'.blue} y el contador ha empezado a correr`)
+            }
         }
     }
     let tiempo;
