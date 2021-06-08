@@ -6,6 +6,8 @@ class UsuariosManegment {
     constructor() {
         this.inicio = [] // [{ usuario, countInit } ...]
         this.final = [] // [ { usuario, tiempoTranscurrido }, ... ]
+        
+        this.readDB()
     }
 
     get diasHorasMinutos() {

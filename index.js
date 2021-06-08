@@ -10,10 +10,10 @@ const controladorUsuario = new UsuariosManegment()
 
 const canalesContadores = new Map( [['Sala de clases', '709959913656418305'], [ 'Sala de clases 2', '846631170975989760' ] ] )
 
-//setInterval( () => {
-//    console.log('this.inicio:   ', controladorUsuario.inicio)
-//    console.log('this.final:    ', controladorUsuario.final, '\n')
-//}, 2000)
+setInterval( () => {
+    console.log('this.inicio:   ', controladorUsuario.inicio)
+    console.log('this.final:    ', controladorUsuario.final, '\n')
+}, 2000)
 
 client.on('ready', () => {
     console.log(`El bot está listo como ${ client.user.tag }`)
@@ -31,7 +31,10 @@ client.on('message', async(message) => {
         case '.tiempo':
             // Este try catch actualiza los usuarios si fuera necesario
             try {
-                controladorUsuario.finalizar(message.author.tag)
+                await controladorUsuario.finalizar(message.author.tag)
+                    .catch( (err) => {
+                        throw new Error(err)
+                    })
                 controladorUsuario.iniciar(message.author.tag)
             } catch (error) {
                 console.log('Mandaste a finalizar y no ha comenzado a contar el tiempo'.red)
@@ -55,7 +58,7 @@ client.on('message', async(message) => {
         case '.toptiempo':
             // Este try catch actualiza los usuarios si fuera necesario
             const usersArr = controladorUsuario.minutos.map( obj => obj.usuario )
-            usersArr.forEach( (tagUser) => {
+            usersArr.forEach( async(tagUser) => {
                 try {
                     await controladorUsuario.finalizar(tagUser)
                         .catch( (err) => {
