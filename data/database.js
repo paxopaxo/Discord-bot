@@ -31,7 +31,7 @@ const insertNewDB = (obj) => {
         // const obj = { usuario: 'pixulitax#3182', tiempoTranscurrido: 90 }
         const query = con.query('INSERT INTO usuarios SET ?', obj, (error, results, fields) => {
             if (error) reject(error)
-            else resolve(results)           
+            else resolve(results)
         })
     })
 }

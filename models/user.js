@@ -44,7 +44,7 @@ class UsuariosManegment {
     
     
     async readDB() {
-        await connectDB()
+        // await connectDB()
         const users = await queryDB('SELECT * FROM usuarios ORDER BY tiempoTranscurrido DESC')
         this.final = users
     }
