@@ -19,7 +19,7 @@ client.on('ready', () => {
     console.log(`El bot está listo como ${ client.user.tag }`)
 })
 
-client.on('message', message => {
+client.on('message', async(message) => {
     // console.log(`${message.author.tag} =>  ${message.content}`)
     switch ( message.content.toLocaleLowerCase() ) {
         case 'rer':
@@ -57,7 +57,10 @@ client.on('message', message => {
             const usersArr = controladorUsuario.minutos.map( obj => obj.usuario )
             usersArr.forEach( (tagUser) => {
                 try {
-                    controladorUsuario.finalizar(tagUser)
+                    await controladorUsuario.finalizar(tagUser)
+                        .catch( (err) => {
+                            throw new Error(err)
+                        })
                     controladorUsuario.iniciar(tagUser)
                 } catch (error) {
                     console.log(tagUser, 'Mandaste a finalizar y no ha comenzado a contar el tiempo'.red)

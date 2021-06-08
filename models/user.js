@@ -59,7 +59,7 @@ class UsuariosManegment {
 
         const indiceInicio = this.inicio.findIndex( obj => obj.usuario === id)
         if ( indiceInicio === -1 ) {
-            throw new Error('Has llamado a finalizar y el tiempo no ha empezado a transcurrir')
+            throw 'Has llamado a finalizar y el tiempo no ha empezado a transcurrir'
         }
         // Le sumo porque el índice 0 evalua false
 
