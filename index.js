@@ -107,15 +107,14 @@ client.on('voiceStateUpdate', async(oldState, newState) => {
             } catch (error) {
                 console.log(`${error.message}`.red)
             }
-        } else {
-            if (  newState.channelID === canalesContadores.get('Sala de clases') ) { 
-                controladorUsuario.iniciar(newState.member.user.tag)
-                console.log(`El usuario ${newState.member.user.tag} se ha ${'CONECTADO'.green} al canal ${'SALA DE CLASES'.blue} y el contador ha empezado a correr`)
-            }
-            if ( newState.channelID === canalesContadores.get('Sala de clases 2') ) {
-                controladorUsuario.iniciar(newState.member.user.tag)
-                console.log(`El usuario ${newState.member.user.tag} se ha ${'CONECTADO'.green} al canal ${'SALA DE CLASES 2'.blue} y el contador ha empezado a correr`)
-            }
+        } 
+        if (  newState.channelID === canalesContadores.get('Sala de clases') ) { 
+            controladorUsuario.iniciar(newState.member.user.tag)
+            console.log(`El usuario ${newState.member.user.tag} se ha ${'CONECTADO'.green} al canal ${'SALA DE CLASES'.blue} y el contador ha empezado a correr`)
+        }
+        if ( newState.channelID === canalesContadores.get('Sala de clases 2') ) {
+            controladorUsuario.iniciar(newState.member.user.tag)
+            console.log(`El usuario ${newState.member.user.tag} se ha ${'CONECTADO'.green} al canal ${'SALA DE CLASES 2'.blue} y el contador ha empezado a correr`)
         }
     }
     let tiempo;
