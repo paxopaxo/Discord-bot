@@ -99,7 +99,7 @@ client.on('voiceStateUpdate', async(oldState, newState) => {
     if(newState.channelID !== oldState.channelID) { // O inicia o finaliza, no hay mas opciones!
         if( oldState.channelID === canalesContadores.get('Sala de clases 2') || oldState.channelID === canalesContadores.get('Sala de clases')) {
             try {
-                controladorUsuario.finalizar(newState.member.user.tag)
+                await controladorUsuario.finalizar(newState.member.user.tag)
                   .catch( (err) => {
                     throw new Error(err)
                   })
